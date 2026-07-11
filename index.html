@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Satvik Tajane — Robotics Engineer</title>
+  <meta name="description" content="Robotics engineer specializing in perception, planning, and manipulation. ROS 2 · Gazebo · MoveIt 2.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-deep: #080c14;
+      --bg-surface: #0f1520;
+      --bg-card: #141c2b;
+      --border: #1e2a3d;
+      --text-primary: #e2e8f0;
+      --text-secondary: #8294b0;
+      --accent: #4fc3f7;
+      --accent-dim: rgba(79,195,247,0.12);
+      --green: #66bb6a;
+      --green-dim: rgba(102,187,106,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Blueprint grid ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(8,12,20,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    nav .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+    nav .nav-links { display: flex; gap: 0; }
+    nav .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 18px 16px;
+      letter-spacing: 0.3px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    nav .nav-links a:hover { color: var(--text-primary); }
+    nav .nav-links a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* ── Tab panels ── */
+    .tab-panel {
+      display: none;
+      padding-top: 80px;
+      min-height: 100vh;
+    }
+    .tab-panel.active { display: block; }
+
+    /* ── Shared section styles ── */
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 40px;
+    }
+
+    /* ── About: Hero ── */
+    .hero {
+      padding: 80px 0 60px;
+    }
+    .hero-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--green);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-label::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(102,187,106,0.5); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(102,187,106,0); }
+    }
+    .hero h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(32px, 5.5vw, 52px);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 28px;
+    }
+    .hero h1 .accent { color: var(--accent); }
+
+    .about-text {
+      max-width: 680px;
+    }
+    .about-text p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .about-text p.highlight {
+      color: var(--text-primary);
+      font-size: 17px;
+      font-weight: 400;
+      border-left: 3px solid var(--accent);
+      padding-left: 20px;
+      margin: 32px 0;
+    }
+
+    .hero-contact {
+      margin-top: 36px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .hero-contact a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.25s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg-deep);
+    }
+    .btn-primary:hover { box-shadow: 0 0 20px rgba(79,195,247,0.35); }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      background: transparent;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Education cards ── */
+    .edu-section { padding: 40px 0 80px; }
+    .edu-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 32px 36px;
+      margin-bottom: 20px;
+      transition: border-color 0.25s;
+    }
+    .edu-card:hover { border-color: var(--accent); }
+    .edu-card:last-child { margin-bottom: 0; }
+    .edu-card h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    .edu-card .school {
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .edu-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+    .edu-card .period {
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-family: 'Space Mono', monospace;
+    }
+    .edu-card .gpa {
+      color: var(--green);
+      font-size: 13px;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+    }
+    .edu-card .focus {
+      margin-top: 14px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── Tech Stack ── */
+    .stack-section { padding: 0 0 80px; }
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+    }
+    .stack-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .stack-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .stack-card h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    .stack-card p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── Projects ── */
+    .projects-section { padding: 40px 0 80px; }
+    .project {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 36px;
+      margin-bottom: 24px;
+      transition: border-color 0.25s;
+    }
+    .project:hover { border-color: var(--accent); }
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .project h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      letter-spacing: 0.3px;
+    }
+    .tag.green { background: var(--green-dim); color: var(--green); }
+    .project p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .project ul {
+      list-style: none;
+      padding: 0;
+    }
+    .project ul li {
+      color: var(--text-secondary);
+      font-size: 14px;
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .project ul li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: var(--accent);
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+    .project-link:hover { gap: 10px; }
+    .project-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* ── CV ── */
+    .cv-section { padding: 40px 0 80px; }
+    .cv-wrapper {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      height: 80vh;
+      position: relative;
+    }
+    .cv-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .cv-download {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .cv-download a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--bg-deep);
+      background: var(--accent);
+      text-decoration: none;
+      border-radius: 6px;
+      transition: box-shadow 0.25s;
+    }
+    .cv-download a:hover { box-shadow: 0 0 24px rgba(79,195,247,0.35); }
+
+    /* ── Repository ── */
+    .repo-section { padding: 40px 0 80px; }
+    .repo-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+    }
+    .repo-card .gh-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 24px;
+      background: var(--accent-dim);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .repo-card .gh-icon svg { fill: var(--accent); }
+    .repo-card h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+    .repo-card p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      max-width: 480px;
+      margin: 0 auto 28px;
+      line-height: 1.7;
+    }
+    .repo-card a.repo-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--bg-deep);
+      background: var(--accent);
+      text-decoration: none;
+      border-radius: 6px;
+      transition: box-shadow 0.25s;
+    }
+    .repo-card a.repo-btn:hover { box-shadow: 0 0 24px rgba(79,195,247,0.35); }
+
+    .repo-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .repo-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: left;
+      transition: border-color 0.25s;
+    }
+    .repo-item:hover { border-color: var(--accent); }
+    .repo-item h4 {
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .repo-item p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .repo-item a {
+      display: inline-block;
+      margin-top: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .repo-item a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-family: 'Space Mono', monospace;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 0 40px; }
+      .project { padding: 24px; }
+      .edu-card { padding: 24px; }
+      nav .nav-links a { padding: 18px 10px; font-size: 12px; }
+      .stack-grid { grid-template-columns: 1fr; }
+      .repo-list { grid-template-columns: 1fr; }
+      .cv-wrapper { height: 70vh; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <div class="logo">ST://portfolio</div>
+      <div class="nav-links">
+        <a data-tab="about" class="active">About</a>
+        <a data-tab="projects">Projects</a>
+        <a data-tab="cv">CV</a>
+        <a data-tab="repository">Repository</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ ABOUT TAB ═══════════════════ -->
+  <div id="about" class="tab-panel active">
+    <div class="container">
+
+      <section class="hero">
+        <div class="hero-label">Open to opportunities</div>
+        <h1>Satvik Tajane<br><span class="accent">Robotics Engineer</span></h1>
+
+        <div class="about-text">
+          <p>
+            Hi, I'm Satvik Tajane — a Master's student in Electrical and Computer Engineering at Northeastern University, specializing in Hardware and Software for Machine Intelligence. My work centers on robotics perception, planning, and control, with particular interest in robotic manipulation and unmanned autonomous vehicles (UAVs). I completed my undergraduate degree in Electrical and Computer Engineering at MIT World Peace University, Pune.
+          </p>
+
+          <p class="highlight">
+            My interest lies in teaching robots how to transform raw sensory information into meaningful understanding and purposeful actions.
+          </p>
+
+          <p>
+            I first encountered robotics as an optional subject during my undergraduate studies at MIT WPU — and it was a turning point. That initial exposure fascinated me deeply, and from that moment on, I've been building my career around it. Robotics isn't just my profession — it's my way of making the world an easier place to live.
+          </p>
+        </div>
+
+        <div class="hero-contact">
+          <a href="mailto:tajane.s@northeastern.edu" class="btn-primary">Get in touch →</a>
+          <a href="https://github.com/satvik1903" target="_blank" class="btn-outline">GitHub</a>
+          <a href="https://www.linkedin.com/in/satvik-tajane19" target="_blank" class="btn-outline">LinkedIn</a>
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section class="edu-section">
+        <div class="section-label">Education</div>
+        <h2 class="section-title">Academic Background</h2>
+
+        <div class="edu-card">
+          <h3>Northeastern University</h3>
+          <div class="school">Master of Science — Electrical and Computer Engineering</div>
+          <div class="edu-meta">
+            <span class="period">Boston, MA · Expected June 2027</span>
+          </div>
+          <div class="school" style="font-size:13px; margin-top:4px; color:var(--text-secondary); font-weight:400;">Specialization: Hardware and Software for Machine Intelligence</div>
+          <p class="focus">
+            Relevant coursework: Mobile Robotics, Robot Sensing and Navigation, Machine Learning and Pattern Recognition.
+          </p>
+        </div>
+
+        <div class="edu-card">
+          <h3>MIT World Peace University</h3>
+          <div class="school">Bachelor of Technology — Electrical and Computer Engineering</div>
+          <div class="edu-meta">
+            <span class="period">Pune, India · July 2021 – June 2025</span>
+            <span class="gpa">CGPA: 8.4 / 10</span>
+          </div>
+          <p class="focus">
+            Relevant coursework: Robotics, Artificial Intelligence and Machine Learning, Control Systems, Data Structures and Algorithms.
+          </p>
+        </div>
+      </section>
+
+      <!-- Tech Stack -->
+      <section class="stack-section">
+        <div class="section-label">Technical Skills</div>
+        <h2 class="section-title">Core Competencies</h2>
+        <div class="stack-grid">
+          <div class="stack-card">
+            <h3>Robotics Middleware</h3>
+            <p>ROS 2 (Humble, Jazzy), Gazebo Harmonic, MoveIt 2, ros2_control, RViz</p>
+          </div>
+          <div class="stack-card">
+            <h3>Manipulation &amp; Planning</h3>
+            <p>MoveIt 2 motion planning, OMPL, KDL kinematics, URDF/SDF/SRDF authoring, A*, RRT, Dijkstra</p>
+          </div>
+          <div class="stack-card">
+            <h3>Perception &amp; Localization</h3>
+            <p>OpenCV, AMCL, Kalman Filters, Particle Filters, ArUco marker detection, camera intrinsics</p>
+          </div>
+          <div class="stack-card">
+            <h3>Languages &amp; Tools</h3>
+            <p>Python, C++, Git, Linux (Ubuntu), MATLAB, Arduino IDE, Docker</p>
+          </div>
+          <div class="stack-card">
+            <h3>Machine Learning</h3>
+            <p>PyTorch, Imitation Learning (ACT, Diffusion Policy), LeRobot, computer vision</p>
+          </div>
+          <div class="stack-card">
+            <h3>Hardware</h3>
+            <p>UR3e, Robotiq 2F-85 gripper, SO-101 Pro arm, LiDAR, IMU, RGBD cameras</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════ PROJECTS TAB ═══════════════════ -->
+  <div id="projects" class="tab-panel">
+    <div class="container">
+      <section class="projects-section">
+        <div class="section-label">Projects</div>
+        <h2 class="section-title">Selected Work</h2>
+
+        <div class="project">
+          <div class="project-header">
+            <div>
+              <h3>Ro-Brew-To: Autonomous Coffee-Making Robot</h3>
+              <span class="project-date">Expected July 2026</span>
+            </div>
+            <div class="project-tags">
+              <span class="tag">ROS 2 Jazzy</span>
+              <span class="tag">Gazebo Harmonic</span>
+              <span class="tag green">MoveIt 2</span>
+            </div>
+          </div>
+          <p>
+            An autonomous pick-and-place pipeline for a UR3e 6-DOF manipulator with Robotiq 2F-85 gripper, simulating the full operation of a pod espresso machine — from detection to brew completion.
+          </p>
+          <ul>
+            <li>Designing and simulating a complete autonomous manipulation pipeline integrating perception, motion planning, and task orchestration on ROS 2 Jazzy</li>
+            <li>Built a custom Gazebo Harmonic world with articulated coffee machine model and overhead RGBD camera sensor</li>
+            <li>Implementing marker-based 6D pose estimation using OpenCV ArUco detection, projecting pixel coordinates to world frame via camera intrinsics and TF2 transforms</li>
+            <li>Developing pick-and-place sequences using MoveIt 2 with Cartesian arc trajectories for lever actuation and constrained planning for pod insertion</li>
+          </ul>
+          <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
+        </div>
+
+        <div class="project">
+          <div class="project-header">
+            <div>
+              <h3>Degradation-Aware Particle Filter for Robot Localization</h3>
+              <span class="project-date">January 2026 – April 2026</span>
+            </div>
+            <div class="project-tags">
+              <span class="tag">Gazebo</span>
+              <span class="tag">LiDAR</span>
+              <span class="tag green">Particle Filter</span>
+            </div>
+          </div>
+          <p>
+            A custom particle filter with dynamic sensor weighting that maintains robust localization even under severe sensor degradation, outperforming the Nav2 AMCL baseline.
+          </p>
+          <ul>
+            <li>Built a custom Gazebo simulation environment integrating LiDAR, camera, and IMU sensor plugins for a ground robot with controlled multi-sensor degradation experiments</li>
+            <li>Designed a degradation-aware particle filter with sensor fallback, introducing 4 levels of synthetic degradation to LiDAR and camera data with a confidence monitor for dynamic weighting</li>
+            <li>Outperformed Nav2 AMCL baseline by 1 m in Absolute Trajectory Error (ATE RMSE), demonstrating robust localization under sensor failure conditions</li>
+          </ul>
+          <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
+        </div>
+
+        <div class="project">
+          <div class="project-header">
+            <div>
+              <h3>Control Barrier Function for Safe Robot Navigation</h3>
+              <span class="project-date">September 2025 – December 2025</span>
+            </div>
+            <div class="project-tags">
+              <span class="tag">Gazebo</span>
+              <span class="tag">CBF</span>
+              <span class="tag green">Multi-Robot</span>
+            </div>
+          </div>
+          <p>
+            Safe navigation in warehouse environments using Control Barrier Functions (CBFs) to enforce collision avoidance while minimally modifying nominal controllers.
+          </p>
+          <ul>
+            <li>Implemented CBF-based safety constraints for mobile robots in Gazebo, ensuring collision avoidance with minimal deviation from nominal control inputs</li>
+            <li>Validated the approach through multi-robot simulation scenarios in cluttered warehouse layouts, demonstrating safe and stable navigation</li>
+          </ul>
+          <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
+        </div>
+
+      </section>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ CV TAB ═══════════════════ -->
+  <div id="cv" class="tab-panel">
+    <div class="container">
+      <section class="cv-section">
+        <div class="section-label">Curriculum Vitae</div>
+        <h2 class="section-title">Resume</h2>
+        <div class="cv-wrapper">
+          <iframe src="Satvik_Tajane_rse.pdf" title="Satvik Tajane Resume"></iframe>
+        </div>
+        <div class="cv-download">
+          <a href="Satvik_Tajane_rse.pdf" download>⤓ Download Resume (PDF)</a>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ REPOSITORY TAB ═══════════════════ -->
+  <div id="repository" class="tab-panel">
+    <div class="container">
+      <section class="repo-section">
+        <div class="section-label">Source Code</div>
+        <h2 class="section-title">GitHub Repository</h2>
+
+        <div class="repo-card">
+          <div class="gh-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </div>
+          <h3>satvik1903</h3>
+          <p>All project source code, simulation environments, and configuration files are available on GitHub.</p>
+          <a href="https://github.com/satvik1903" target="_blank" class="repo-btn">Visit GitHub Profile →</a>
+
+          <div class="repo-list">
+            <div class="repo-item">
+              <h4>Ro-Brew-To</h4>
+              <p>Autonomous coffee-making robot simulation — UR3e + Robotiq 2F-85, ROS 2 Jazzy, Gazebo Harmonic</p>
+              <a href="https://github.com/satvik1903" target="_blank">View repo →</a>
+            </div>
+            <div class="repo-item">
+              <h4>DAPF Localization</h4>
+              <p>Degradation-Aware Particle Filter with multi-sensor fallback for robust robot localization</p>
+              <a href="https://github.com/satvik1903" target="_blank">View repo →</a>
+            </div>
+            <div class="repo-item">
+              <h4>CBF Navigation</h4>
+              <p>Control Barrier Functions for safe multi-robot navigation in warehouse environments</p>
+              <a href="https://github.com/satvik1903" target="_blank">View repo →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">© 2026 Satvik Tajane. Built with purpose.</div>
+  </footer>
+
+  <!-- Tab switching -->
+  <script>
+    document.querySelectorAll('nav .nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        const tab = link.dataset.tab;
+
+        document.querySelectorAll('nav .nav-links a').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById(tab).classList.add('active');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+
+</body>
+</html>
