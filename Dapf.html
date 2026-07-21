@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DA-PF Localization — Satvik Tajane</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-deep: #080c14; --bg-surface: #0f1520; --bg-card: #141c2b;
+      --border: #1e2a3d; --text-primary: #e2e8f0; --text-secondary: #8294b0;
+      --accent: #4fc3f7; --accent-dim: rgba(79,195,247,0.12);
+      --green: #66bb6a; --green-dim: rgba(102,187,106,0.12);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-deep); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 60px 60px; opacity: 0.18; pointer-events: none; z-index: 0; }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(8,12,20,0.88); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    nav .container { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    nav .logo { font-family: 'Space Mono', monospace; font-size: 15px; color: var(--accent); letter-spacing: 0.5px; text-decoration: none; }
+    nav .back-link { color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s; }
+    nav .back-link:hover { color: var(--accent); }
+    .article { padding: 120px 0 80px; }
+    .article-label { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .article h1 { font-family: 'Space Mono', monospace; font-size: clamp(26px, 4.5vw, 40px); font-weight: 700; line-height: 1.2; margin-bottom: 16px; }
+    .article-meta { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text-secondary); margin-bottom: 40px; display: flex; flex-wrap: wrap; gap: 16px; }
+    .tag { font-family: 'Space Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 4px; background: var(--accent-dim); color: var(--accent); }
+    .tag.green { background: var(--green-dim); color: var(--green); }
+    .article h2 { font-family: 'Space Mono', monospace; font-size: 20px; font-weight: 700; margin: 48px 0 16px; color: var(--accent); }
+    .article h3 { font-family: 'Space Mono', monospace; font-size: 16px; font-weight: 700; margin: 32px 0 12px; }
+    .article p { color: var(--text-secondary); font-size: 16px; line-height: 1.8; margin-bottom: 20px; }
+    .article ul { list-style: none; padding: 0; margin-bottom: 20px; }
+    .article ul li { color: var(--text-secondary); font-size: 15px; padding: 6px 0 6px 20px; position: relative; line-height: 1.6; }
+    .article ul li::before { content: '▹'; position: absolute; left: 0; color: var(--accent); }
+    .article blockquote { border-left: 3px solid var(--accent); padding: 16px 24px; margin: 32px 0; background: var(--bg-card); border-radius: 0 8px 8px 0; }
+    .article blockquote p { color: var(--text-primary); font-size: 17px; margin: 0; }
+    .article img { width: 100%; border-radius: 10px; border: 1px solid var(--border); margin: 24px 0; }
+    .article code { font-family: 'Space Mono', monospace; font-size: 14px; background: var(--bg-card); padding: 2px 8px; border-radius: 4px; color: var(--accent); }
+    .article pre { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin: 20px 0; }
+    .article pre code { background: none; padding: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+    .placeholder { background: var(--bg-card); border: 2px dashed var(--border); border-radius: 10px; padding: 40px; text-align: center; margin: 24px 0; }
+    .placeholder p { color: var(--text-secondary); font-size: 14px; font-style: italic; margin: 0; }
+    footer { text-align: center; padding: 32px 0; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-secondary); font-family: 'Space Mono', monospace; position: relative; z-index: 1; }
+    @media (max-width: 600px) { .article { padding: 100px 0 60px; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <a href="../index.html" class="logo">ST://portfolio</a>
+      <a href="../index.html" class="back-link">← Back to Portfolio</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <article class="article">
+      <div class="article-label">Project Deep Dive</div>
+      <h1>DA-PF: Degradation-Aware Particle Filter for Robot Localization</h1>
+      <div class="article-meta">
+        <span>January 2026 – April 2026</span>
+        <span class="tag">ROS 2 Jazzy</span>
+        <span class="tag">Gazebo Harmonic</span>
+        <span class="tag green">Particle Filter</span>
+        <span class="tag">Multi-Sensor Fusion</span>
+      </div>
+
+      <h2>The Story</h2>
+      <p>
+        <!-- WRITE YOUR STORY HERE — what course, what motivated this approach, why standard AMCL falls short -->
+        Coming soon — the full story behind building a degradation-aware localization system.
+      </p>
+
+      <h2>The Problem</h2>
+      <p>
+        <!-- THE GAP — Nav2 AMCL assumes uniform sensor reliability, real-world conditions break that assumption -->
+        Coming soon.
+      </p>
+
+      <h2>Mathematical Formulation</h2>
+      <p>
+        <!-- THE CORE IDEA — confidence-scaled likelihood, w_i = L_cam^α_cam × L_ult^α_ult, why exponents not weights -->
+        Coming soon.
+      </p>
+
+      <h2>System Architecture</h2>
+
+      <div class="placeholder">
+        <p>Architecture / ROS 2 node graph diagram will go here</p>
+      </div>
+
+      <p>
+        <!-- NODE GRAPH — degradation nodes, confidence monitor, DA-PF node, published topics, data flow -->
+        Coming soon.
+      </p>
+
+      <h2>Sensor Suite &amp; Degradation Model</h2>
+      <p>
+        <!-- SENSORS — camera specs, ultrasonic specs, IMU specs -->
+        <!-- DEGRADATION — Gaussian blur + contrast for camera, noise + dropout for ultrasonic, runtime injection via ros2 param -->
+        Coming soon.
+      </p>
+
+      <h2>Simulation Environment</h2>
+
+      <div class="placeholder">
+        <p>Gazebo warehouse screenshot will go here</p>
+      </div>
+
+      <p>
+        <!-- WAREHOUSE — 20m×15m, obstacles, 16 ArUco markers, why this layout -->
+        Coming soon.
+      </p>
+
+      <h2>Experimental Evaluation</h2>
+      <p>
+        <!-- 4 CONDITIONS — clean, camera-degraded, ultrasonic-degraded, both -->
+        <!-- RESULTS — ATE RMSE comparison table/chart, particle spread analysis -->
+        Coming soon.
+      </p>
+
+      <div class="placeholder">
+        <p>Results plots / comparison charts will go here</p>
+      </div>
+
+      <h2>What I Learned</h2>
+      <p>
+        <!-- TAKEAWAYS — sensor fusion design, experimental methodology, ROS 2 node architecture patterns -->
+        Coming soon.
+      </p>
+
+    </article>
+  </div>
+
+  <footer>
+    <div class="container">© 2026 Satvik Tajane</div>
+  </footer>
+
+</body>
+</html>
