@@ -252,34 +252,6 @@
       line-height: 1.6;
     }
 
-    /* ── Tech Stack ── */
-    .stack-section { padding: 0 0 80px; }
-    .stack-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 16px;
-    }
-    .stack-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 24px;
-      transition: border-color 0.25s, transform 0.25s;
-    }
-    .stack-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .stack-card h3 {
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      color: var(--accent);
-      margin-bottom: 10px;
-      letter-spacing: 0.5px;
-    }
-    .stack-card p {
-      color: var(--text-secondary);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
     /* ── Projects ── */
     .projects-section { padding: 40px 0 80px; }
     .project {
@@ -497,7 +469,6 @@
       .project { padding: 24px; }
       .edu-card { padding: 24px; }
       nav .nav-links a { padding: 18px 10px; font-size: 12px; }
-      .stack-grid { grid-template-columns: 1fr; }
       .repo-list { grid-template-columns: 1fr; }
       .cv-wrapper { height: 70vh; }
     }
@@ -581,7 +552,8 @@
         </div>
       </section>
 
-     
+    </div>
+  </div>
 
   <!-- ═══════════════════ PROJECTS TAB ═══════════════════ -->
   <div id="projects" class="tab-panel">
@@ -611,7 +583,10 @@
             <li>Implementing marker-based 6D pose estimation using OpenCV ArUco detection, projecting pixel coordinates to world frame via camera intrinsics and TF2 transforms</li>
             <li>Developing pick-and-place sequences using MoveIt 2 with Cartesian arc trajectories for lever actuation and constrained planning for pod insertion</li>
           </ul>
-          <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
+          <div style="display:flex; gap:24px; flex-wrap:wrap;">
+            <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
+            <a href="projects/robrewto.html" class="project-link" style="color:var(--green);">View in Detail →</a>
+          </div>
         </div>
 
         <div class="project">
@@ -635,7 +610,10 @@
             <li>Architected a ROS 2 Confidence Monitor Node that subscribes to degraded sensor streams, computes per-sensor reliability scores, and publishes confidence topics consumed by the particle filter for dynamic likelihood weighting</li>
             <li>Outperformed Nav2 AMCL baseline by 1 m in Absolute Trajectory Error (ATE RMSE), demonstrating robust localization under sensor failure conditions</li>
           </ul>
-          <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
+          <div style="display:flex; gap:24px; flex-wrap:wrap;">
+            <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
+            <a href="projects/dapf.html" class="project-link" style="color:var(--green);">View in Detail →</a>
+          </div>
         </div>
 
         <div class="project">
@@ -657,7 +635,10 @@
             <li>Implemented CBF-based safety constraints for mobile robots in Gazebo, ensuring collision avoidance with minimal deviation from nominal control inputs</li>
             <li>Validated the approach through multi-robot simulation scenarios in cluttered warehouse layouts, demonstrating safe and stable navigation</li>
           </ul>
-          <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
+          <div style="display:flex; gap:24px; flex-wrap:wrap;">
+            <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
+            <a href="projects/cbf.html" class="project-link" style="color:var(--green);">View in Detail →</a>
+          </div>
         </div>
 
       </section>
