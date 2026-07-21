@@ -630,8 +630,9 @@
             A custom particle filter with dynamic sensor weighting that maintains robust localization even under severe sensor degradation, outperforming the Nav2 AMCL baseline.
           </p>
           <ul>
-            <li>Built a custom Gazebo simulation environment integrating LiDAR, camera, and IMU sensor plugins for a ground robot with controlled multi-sensor degradation experiments</li>
-            <li>Designed a degradation-aware particle filter with sensor fallback, introducing 4 levels of synthetic degradation to LiDAR and camera data with a confidence monitor for dynamic weighting</li>
+            <li>Developed a confidence scaled particle filter fusing monocular camera (ArUco 6D pose), ultrasonic range, and IMU, with per sensor likelihood exponents (α ∈ [0,1]) that continuously modulate contributions, eliminating hard threshold switching for graceful degradation</li>
+            <li>Implemented real time sensor degradation simulation by applying Gaussian blur with contrast attenuation on camera frames to model fog induced visibility loss, alongside Gaussian noise injection with stochastic max range dropout on ultrasonic readings to simulate acoustic interference.</li>
+            <li>Architected a ROS 2 Confidence Monitor Node that subscribes to degraded sensor streams, computes per-sensor reliability scores, and publishes confidence topics consumed by the particle filter for dynamic likelihood weighting</li>
             <li>Outperformed Nav2 AMCL baseline by 1 m in Absolute Trajectory Error (ATE RMSE), demonstrating robust localization under sensor failure conditions</li>
           </ul>
           <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
