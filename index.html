@@ -497,28 +497,35 @@
   <div id="about" class="tab-panel active">
     <div class="container">
 
-      <section class="hero">
-        <div class="hero-label">Open to opportunities</div>
-        <h1>Satvik Tajane<br><span class="accent">Robotics Engineer</span></h1>
+      <section class="hero" style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:40px;">
+        <div style="flex:1; min-width:280px;">
+          <div class="hero-label">Open to opportunities</div>
+          <h1>Satvik Tajane<br><span class="accent">Robotics Engineer</span></h1>
 
-        <div class="about-text">
-          <p>
-            Hi, I'm Satvik Tajane. A Master's student in Electrical and Computer Engineering at Northeastern University, specializing in Hardware and Software for Machine Intelligence. My work centers on robotics perception, planning, and control, with particular interest in robotic manipulation and Unmanned Autonomous Vehicles (UAVs). I completed my undergraduate degree in Electrical and Computer Engineering at MIT World Peace University, Pune.
-          </p>
+          <div class="about-text">
+            <p>
+              Hi, I'm Satvik Tajane. A Master's student in Electrical and Computer Engineering at Northeastern University, specializing in Hardware and Software for Machine Intelligence. My work centers on robotics perception, planning, and control, with particular interest in robotic manipulation and Unmanned Autonomous Vehicles (UAVs). I completed my undergraduate degree in Electrical and Computer Engineering at MIT World Peace University, Pune.
+            </p>
 
-          <p class="highlight">
-            My interest lies in teaching robots how to transform raw sensory information into meaningful understanding and purposeful actions.
-          </p>
+            <p class="highlight">
+              My interest lies in teaching robots how to transform raw sensory information into meaningful understanding and purposeful actions.
+            </p>
 
-          <p>
-            I first encountered robotics as an optional subject during my undergraduate studies at MIT WPU, and it was a turning point. That initial exposure fascinated me deeply, and from that moment on, I've been building my career around it. Robotics isn't just my profession it's my way of making the world an easier place to live.
-          </p>
+            <p>
+              I first encountered robotics as an optional subject during my undergraduate studies at MIT WPU, and it was a turning point. That initial exposure fascinated me deeply, and from that moment on, I've been building my career around it. Robotics isn't just my profession it's my way of making the world an easier place to live.
+            </p>
+          </div>
+
+          <div class="hero-contact">
+            <a href="mailto:tajane.s@northeastern.edu" class="btn-primary">Get in touch →</a>
+            <a href="https://github.com/satvik1903" target="_blank" class="btn-outline">GitHub</a>
+            <a href="https://www.linkedin.com/in/satvik-tajane19" target="_blank" class="btn-outline">LinkedIn</a>
+          </div>
         </div>
 
-        <div class="hero-contact">
-          <a href="mailto:tajane.s@northeastern.edu" class="btn-primary">Get in touch →</a>
-          <a href="https://github.com/satvik1903" target="_blank" class="btn-outline">GitHub</a>
-          <a href="https://www.linkedin.com/in/satvik-tajane19" target="_blank" class="btn-outline">LinkedIn</a>
+        <!-- Profile Photo -->
+        <div style="flex-shrink:0; margin-top:60px;">
+          <img src="Linkedinphoto.png" alt="Satvik Tajane" style="width:220px; height:220px; border-radius:12px; object-fit:cover; border:1px solid var(--border);">
         </div>
       </section>
 
@@ -572,47 +579,58 @@
               <span class="tag">ROS 2 Jazzy</span>
               <span class="tag">Gazebo Harmonic</span>
               <span class="tag green">MoveIt 2</span>
+              <span class="tag">OpenCV</span>
             </div>
           </div>
           <p>
-            An autonomous pick-and-place pipeline for a UR3e 6-DOF manipulator with Robotiq 2F-85 gripper, simulating the full operation of a pod espresso machine — from detection to brew completion.
+            A full perception-to-action pipeline for a UR3e 6-DOF manipulator with Robotiq 2F-85 gripper — the robot detects objects via vision, estimates their 6D pose, plans collision-free trajectories, and executes a complete coffee-brewing sequence autonomously in simulation.
           </p>
+          <!-- Video placeholder -->
+          <div style="background:var(--bg-surface); border:2px dashed var(--border); border-radius:8px; padding:32px; text-align:center; margin-bottom:20px;">
+            <span style="color:var(--text-secondary); font-size:13px; font-family:'Space Mono',monospace;">Demo video coming soon</span>
+          </div>
           <ul>
-            <li>Designing and simulating a complete autonomous manipulation pipeline integrating perception, motion planning, and task orchestration on ROS 2 Jazzy</li>
-            <li>Built a custom Gazebo Harmonic world with articulated coffee machine model and overhead RGBD camera sensor</li>
-            <li>Implementing marker-based 6D pose estimation using OpenCV ArUco detection, projecting pixel coordinates to world frame via camera intrinsics and TF2 transforms</li>
-            <li>Developing pick-and-place sequences using MoveIt 2 with Cartesian arc trajectories for lever actuation and constrained planning for pod insertion</li>
+            <li>Built a marker-based 6D pose estimation pipeline using OpenCV ArUco detection, computing object position and orientation by projecting pixel coordinates to world frame through camera intrinsics and TF2 transform chains</li>
+            <li>Designed a custom Gazebo Harmonic simulation environment with an overhead RGBD camera sensor (800×600, 80° FOV), articulated coffee machine model, and calibrated sensor plugins for realistic perception input</li>
+            <li>Developed collision-aware motion planning using MoveIt 2 with OMPL, including Cartesian arc trajectories for lever actuation and constrained planning for precise pod insertion into the machine</li>
+            <li>Architected the full ROS 2 node graph connecting perception (camera → detection → pose estimation) to planning (MoveIt 2) to execution (ros2_control → Gazebo physics), targeting closed-loop autonomy from raw image to brew completion</li>
+            <li>Resolved critical integration issues including a camera sensor race condition under llvmpipe software rendering, gripper controller action name mismatches, and SRDF self-collision false positives</li>
           </ul>
           <div style="display:flex; gap:24px; flex-wrap:wrap;">
             <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
-            <a href="projects/robrewto.html" class="project-link" style="color:var(--green);">View in Detail →</a>
           </div>
         </div>
 
         <div class="project">
           <div class="project-header">
             <div>
-              <h3>Degradation-Aware Particle Filter for Robot Localization</h3>
+              <h3>DA-PF: Degradation-Aware Particle Filter for Robot Localization</h3>
               <span class="project-date">January 2026 – April 2026</span>
             </div>
             <div class="project-tags">
-              <span class="tag">Gazebo</span>
-              <span class="tag">LiDAR</span>
+              <span class="tag">ROS 2 Jazzy</span>
+              <span class="tag">Gazebo Harmonic</span>
               <span class="tag green">Particle Filter</span>
+              <span class="tag">Sensor Fusion</span>
             </div>
           </div>
           <p>
-            A custom particle filter with dynamic sensor weighting that maintains robust localization even under severe sensor degradation, outperforming the Nav2 AMCL baseline.
+            A multi-sensor particle filter that continuously estimates per-sensor reliability and dynamically scales each modality's contribution to the likelihood function — enabling robust localization under progressive sensor degradation where standard approaches like Nav2 AMCL fail.
           </p>
+          <!-- DAPF Demo Video -->
+          <video controls style="width:100%; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;" preload="metadata">
+            <source src="dapfvideo.mov" type="video/quicktime">
+            Your browser does not support the video tag.
+          </video>
           <ul>
-            <li>Developed a confidence scaled particle filter fusing monocular camera (ArUco 6D pose), ultrasonic range, and IMU, with per sensor likelihood exponents (α ∈ [0,1]) that continuously modulate contributions, eliminating hard threshold switching for graceful degradation</li>
-            <li>Implemented real time sensor degradation simulation by applying Gaussian blur with contrast attenuation on camera frames to model fog induced visibility loss, alongside Gaussian noise injection with stochastic max range dropout on ultrasonic readings to simulate acoustic interference.</li>
-            <li>Architected a ROS 2 Confidence Monitor Node that subscribes to degraded sensor streams, computes per-sensor reliability scores, and publishes confidence topics consumed by the particle filter for dynamic likelihood weighting</li>
-            <li>Outperformed Nav2 AMCL baseline by 1 m in Absolute Trajectory Error (ATE RMSE), demonstrating robust localization under sensor failure conditions</li>
+            <li>Formulated a confidence-scaled likelihood update (w<sub>i</sub> = L<sub>cam</sub><sup>α<sub>cam</sub></sup> × L<sub>ult</sub><sup>α<sub>ult</sub></sup>, α ∈ [0, 1]) that continuously modulates each sensor's contribution to particle weights, replacing hard-threshold switching with smooth graceful degradation</li>
+            <li>Fused three perception modalities — monocular RGB camera (ArUco 6D landmark detection, 800×600, 15 Hz), HC-SR04 ultrasonic (0.02–4.0 m range, 10 Hz), and IMU (100 Hz) — through a dedicated Confidence Monitor Node publishing real-time per-sensor reliability estimates</li>
+            <li>Implemented runtime sensor degradation simulation: Gaussian blur + contrast attenuation on camera frames to model fog-induced visibility loss, and Gaussian noise injection + stochastic max-range dropout on ultrasonic readings to simulate acoustic interference across 4 experimental conditions</li>
+            <li>Built a 20 m × 15 m Gazebo Harmonic warehouse with 16 ArUco fiducial markers and independently degraded LiDAR scans for the Nav2 AMCL baseline, ensuring controlled and fair evaluation</li>
+            <li>Achieved 1 m improvement in Absolute Trajectory Error (ATE RMSE) over Nav2 AMCL under simultaneous multi-sensor failure, with open-source evaluation scripts for full reproducibility</li>
           </ul>
           <div style="display:flex; gap:24px; flex-wrap:wrap;">
-            <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
-            <a href="projects/dapf.html" class="project-link" style="color:var(--green);">View in Detail →</a>
+            <a href="https://github.com/satvik1903/DAPF-with-camera-and-ultrasonic" target="_blank" class="project-link">View on GitHub →</a>
           </div>
         </div>
 
@@ -626,18 +644,23 @@
               <span class="tag">Gazebo</span>
               <span class="tag">CBF</span>
               <span class="tag green">Multi-Robot</span>
+              <span class="tag">Safety-Critical Control</span>
             </div>
           </div>
           <p>
-            Safe navigation in warehouse environments using Control Barrier Functions (CBFs) to enforce collision avoidance while minimally modifying nominal controllers.
+            Safety-guaranteed multi-robot navigation in cluttered warehouse environments using Control Barrier Functions — enforcing real-time collision avoidance as a hard constraint while minimally deviating from the nominal controller's intent.
           </p>
+          <!-- Video placeholder -->
+          <div style="background:var(--bg-surface); border:2px dashed var(--border); border-radius:8px; padding:32px; text-align:center; margin-bottom:20px;">
+            <span style="color:var(--text-secondary); font-size:13px; font-family:'Space Mono',monospace;">Demo video coming soon</span>
+          </div>
           <ul>
-            <li>Implemented CBF-based safety constraints for mobile robots in Gazebo, ensuring collision avoidance with minimal deviation from nominal control inputs</li>
-            <li>Validated the approach through multi-robot simulation scenarios in cluttered warehouse layouts, demonstrating safe and stable navigation</li>
+            <li>Formulated CBF-based safety constraints as a quadratic program (QP) that filters nominal velocity commands in real time, computing the minimum-deviation safe control input at each timestep while guaranteeing forward invariance of the safe set</li>
+            <li>Integrated LiDAR-based obstacle detection to construct CBF barrier functions from real-time range measurements, creating distance-dependent safety boundaries around static obstacles and dynamic agents</li>
+            <li>Validated the approach across multi-robot simulation scenarios in warehouse layouts with narrow corridors, intersections, and moving obstacles — demonstrating zero-collision performance with minimal trajectory deviation from nominal paths</li>
           </ul>
           <div style="display:flex; gap:24px; flex-wrap:wrap;">
             <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
-            <a href="projects/cbf.html" class="project-link" style="color:var(--green);">View in Detail →</a>
           </div>
         </div>
 
@@ -651,11 +674,13 @@
       <section class="cv-section">
         <div class="section-label">Curriculum Vitae</div>
         <h2 class="section-title">Resume</h2>
-        <div class="cv-wrapper">
-          <iframe src="Satvik_Tajane_rse.pdf" title="Satvik Tajane Resume"></iframe>
-        </div>
-        <div class="cv-download">
-          <a href="Satvik_Tajane_rse.pdf" download>⤓ Download Resume (PDF)</a>
+        <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:60px 40px; text-align:center;">
+          <div style="width:64px; height:64px; margin:0 auto 24px; background:var(--accent-dim); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <h3 style="font-family:'Space Mono',monospace; font-size:20px; margin-bottom:12px;">Satvik_Tajane_Resume.pdf</h3>
+          <p style="color:var(--text-secondary); font-size:15px; max-width:420px; margin:0 auto 28px; line-height:1.7;">Download my resume for a full overview of my education, technical skills, projects, and professional experience.</p>
+          <a href="Satvik_Tajane_rse.pdf" download style="display:inline-flex; align-items:center; gap:8px; padding:14px 32px; font-size:14px; font-weight:600; color:var(--bg-deep); background:var(--accent); text-decoration:none; border-radius:6px; transition:box-shadow 0.25s;">⤓ Download Resume</a>
         </div>
       </section>
     </div>
@@ -700,7 +725,7 @@
 
   <!-- Footer -->
   <footer>
-    <div class="container">© 2026 Satvik Tajane. Built with purpose.</div>
+    <div class="container">© 2026 Satvik Tajane.</div>
   </footer>
 
   <!-- Tab switching -->
