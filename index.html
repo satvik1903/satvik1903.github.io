@@ -590,11 +590,11 @@
             <span style="color:var(--text-secondary); font-size:13px; font-family:'Space Mono',monospace;">Demo video coming soon</span>
           </div>
           <ul>
-            <li>Built a marker-based 6D pose estimation pipeline using OpenCV ArUco detection, computing object position and orientation by projecting pixel coordinates to world frame through camera intrinsics and TF2 transform chains</li>
+            <li>Built a marker based 6D pose estimation pipeline using OpenCV ArUco detection, computing object position and orientation by projecting pixel coordinates to world frame through camera intrinsics and TF2 transform chains</li>
             <li>Designed a custom Gazebo Harmonic simulation environment with an overhead RGBD camera sensor (800×600, 80° FOV), articulated coffee machine model, and calibrated sensor plugins for realistic perception input</li>
-            <li>Developed collision-aware motion planning using MoveIt 2 with OMPL, including Cartesian arc trajectories for lever actuation and constrained planning for precise pod insertion into the machine</li>
-            <li>Architected the full ROS 2 node graph connecting perception (camera → detection → pose estimation) to planning (MoveIt 2) to execution (ros2_control → Gazebo physics), targeting closed-loop autonomy from raw image to brew completion</li>
-            <li>Resolved critical integration issues including a camera sensor race condition under llvmpipe software rendering, gripper controller action name mismatches, and SRDF self-collision false positives</li>
+            <li>Developed collision aware motion planning using MoveIt 2 with OMPL, including Cartesian arc trajectories for lever actuation and constrained planning for precise pod insertion into the machine</li>
+            <li>Architected the full ROS 2 node graph connecting perception (camera → detection → pose estimation) to planning (MoveIt 2) to execution (ros2_control → Gazebo physics), targeting closed loop autonomy from raw image to brew completion</li>
+            <li>Resolved critical integration issues including a camera sensor race condition under llvmpipe software rendering, gripper controller action name mismatches, and SRDF self collision false positives</li>
           </ul>
           <div style="display:flex; gap:24px; flex-wrap:wrap;">
             <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
@@ -615,7 +615,7 @@
             </div>
           </div>
           <p>
-            A multi-sensor particle filter that continuously estimates per-sensor reliability and dynamically scales each modality's contribution to the likelihood function — enabling robust localization under progressive sensor degradation where standard approaches like Nav2 AMCL fail.
+            A multi sensor particle filter that continuously estimates per sensor reliability and dynamically scales each modality's contribution to the likelihood function, enabling robust localization under progressive sensor degradation where standard approaches like Nav2 AMCL fail. In the video below the first terminal displays the confidence monitor of camera and ultrasonic.
           </p>
           <!-- DAPF Demo Video -->
           <video controls style="width:100%; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;" preload="metadata">
@@ -623,11 +623,11 @@
             Your browser does not support the video tag.
           </video>
           <ul>
-            <li>Formulated a confidence-scaled likelihood update (w<sub>i</sub> = L<sub>cam</sub><sup>α<sub>cam</sub></sup> × L<sub>ult</sub><sup>α<sub>ult</sub></sup>, α ∈ [0, 1]) that continuously modulates each sensor's contribution to particle weights, replacing hard-threshold switching with smooth graceful degradation</li>
-            <li>Fused three perception modalities — monocular RGB camera (ArUco 6D landmark detection, 800×600, 15 Hz), HC-SR04 ultrasonic (0.02–4.0 m range, 10 Hz), and IMU (100 Hz) — through a dedicated Confidence Monitor Node publishing real-time per-sensor reliability estimates</li>
-            <li>Implemented runtime sensor degradation simulation: Gaussian blur + contrast attenuation on camera frames to model fog-induced visibility loss, and Gaussian noise injection + stochastic max-range dropout on ultrasonic readings to simulate acoustic interference across 4 experimental conditions</li>
+            <li>Designed a confidence scaled likelihood update (w<sub>i</sub> = L<sub>cam</sub><sup>α<sub>cam</sub></sup> × L<sub>ult</sub><sup>α<sub>ult</sub></sup>, α ∈ [0, 1]) that continuously modulates each sensor's contribution to particle weights, replacing hard threshold switching with smooth graceful degradation</li>
+            <li>Fused three perception modalities, monocular RGB camera (ArUco 6D landmark detection, 800×600, 15 Hz), HC-SR04 ultrasonic (0.02–4.0 m range, 10 Hz), and IMU (100 Hz) through a dedicated Confidence Monitor Node publishing real time per sensor reliability estimates</li>
+            <li>Implemented runtime sensor degradation gazebo simulation Gaussian blur with contrast attenuation on camera frames to model fog induced visibility loss, and Gaussian noise injection with stochastic max range dropout on ultrasonic readings to simulate acoustic interference across 4 experimental conditions</li>
             <li>Built a 20 m × 15 m Gazebo Harmonic warehouse with 16 ArUco fiducial markers and independently degraded LiDAR scans for the Nav2 AMCL baseline, ensuring controlled and fair evaluation</li>
-            <li>Achieved 1 m improvement in Absolute Trajectory Error (ATE RMSE) over Nav2 AMCL under simultaneous multi-sensor failure, with open-source evaluation scripts for full reproducibility</li>
+            <li>Achieved 1 m improvement in Absolute Trajectory Error (ATE RMSE) over Nav2 AMCL under simultaneous multi sensor failure, with open source evaluation scripts for full reproducibility</li>
           </ul>
           <div style="display:flex; gap:24px; flex-wrap:wrap;">
             <a href="https://github.com/satvik1903/DAPF-with-camera-and-ultrasonic" target="_blank" class="project-link">View on GitHub →</a>
@@ -647,7 +647,7 @@
             </div>
           </div>
           <p>
-            Safety-guaranteed multi-robot navigation in cluttered warehouse environments using Control Barrier Functions — enforcing real-time collision avoidance as a hard constraint while minimally deviating from the nominal controller's intent.
+            Safety guaranteed multi robot navigation in cluttered warehouse environments using Control Barrier Functions enforcing real time collision avoidance as a hard constraint while minimally deviating from the nominal controller's intent. In the video below two robots reach there respective goals while they pass through a common path and the CBF kicks in for them to not collide.
           </p>
           <!-- Video placeholder -->
         <video controls style="width:100%; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;" preload="metadata">
@@ -655,9 +655,9 @@
           Your browser does not support the video tag.
         </video>
           <ul>
-            <li>Formulated CBF-based safety constraints as a quadratic program (QP) that filters nominal velocity commands in real time, computing the minimum-deviation safe control input at each timestep while guaranteeing forward invariance of the safe set</li>
-            <li>Integrated LiDAR-based obstacle detection to construct CBF barrier functions from real-time range measurements, creating distance-dependent safety boundaries around static obstacles and dynamic agents</li>
-            <li>Validated the approach across multi-robot simulation scenarios in warehouse layouts with narrow corridors, intersections, and moving obstacles — demonstrating zero-collision performance with minimal trajectory deviation from nominal paths</li>
+            <li>Formulated CBF based safety constraints as a quadratic program (QP) that filters nominal velocity commands in real time, computing the minimum deviation safe control input at each timestep while guaranteeing forward invariance of the safe set</li>
+            <li>Integrated LiDAR based obstacle detection to construct CBF barrier functions from real time range measurements, creating distance dependent safety boundaries around static obstacles and dynamic agents</li>
+            <li>Validated the approach across multi robot simulation scenarios in warehouse layout simulation in gazebo with  intersecting paths, demonstrating zero collision performance with minimal trajectory deviation from nominal paths</li>
           </ul>
           <div style="display:flex; gap:24px; flex-wrap:wrap;">
             <a href="https://github.com/satvik1903" target="_blank" class="project-link">View on GitHub →</a>
